@@ -79,7 +79,7 @@ def algorithm(**kwargs):
 
             advi_adapt_step_size (bool):
                 Default to True. If True, then it uses the
-                heuristic step-size scheme in the PyStan's ADVI implementation.
+                heuristic step-size scheme in the stan's ADVI implementation.
 
             advi_adapt_step_size_range (iterable):
                 The range used in the original paper was [100,10,1,0.1,0.01]
@@ -319,7 +319,7 @@ def inference(
     npr.seed(hparams['seed'])
     if not code.isascii():
         raise ValueError(f"""Found ascii character in code.
-            PyStan currently does not support non-ascii characters.
+            stancurrently does not support non-ascii characters.
             See https://github.com/alashworth/stan-monorepo-stage1/issues/87
             for discussion. Please, remove the non-ascii
             characters from the source code.

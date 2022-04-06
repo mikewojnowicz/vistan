@@ -1,4 +1,4 @@
-import pystan
+import stan
 import warnings
 import pickle
 import os
@@ -12,15 +12,15 @@ import autograd.numpy as np
 import vistan.utilities as utils
 import logging
 import joblib
-# get pystan to stop warning
-logging.getLogger("pystan").propagate = False
+# get stanto stop warning
+logging.getLogger("stan").propagate = False
 ###########################################################################
 #  stuff related to loading stan models and data
 ###########################################################################
 
 
 def is_good_model(code, data, model_name="test_model", verbose=True):
-    """ A simple function to test if PyStan compiles, samples, optimizes
+    """ A simple function to test if stancompiles, samples, optimizes
         the model correctly or not.
 
     Args:
@@ -69,7 +69,7 @@ def is_good_model(code, data, model_name="test_model", verbose=True):
 
 
 def get_compiled_model(model_code, model_name=None, verbose=False, **kwargs):
-    """ A function to get PyStan compiled model.
+    """ A function to get stancompiled model.
 
     Args:
         model_code (string):
@@ -77,7 +77,7 @@ def get_compiled_model(model_code, model_name=None, verbose=False, **kwargs):
         model_name (string, optional):
             Defaults to None.
         verbose (bool, optional):
-            Helps print some PyStan compilation warnings.
+            Helps print some stancompilation warnings.
             Defaults to False.
 
     Returns:
@@ -107,7 +107,7 @@ def get_compiled_model(model_code, model_name=None, verbose=False, **kwargs):
         try:
             print("Cached model not found. Compiling...")
             with utils.suppress_stdout_stderr(verbose):
-                sm = pystan.StanModel(
+                sm = stan.StanModel(
                                     model_code=model_code,
                                     model_name=model_name, **kwargs)
         except Exception as e:
@@ -198,10 +198,10 @@ class Model:
         Returns:
             dict:
                 A dictionary containing the shapes of all the parameters that
-                are return my the PyStan's sampling function. This involves
+                are return my the stan's sampling function. This involves
                 transformed parameters and generated quantities. This is useful
                 to transform the unconstrained results from ADVI and vistan to
-                constrained format similar to PyStan's StanModelFit4.extract()
+                constrained format similar to stan's StanModelFit4.extract()
         """
         results = self.fit.extract()
         N = self.get_n_samples(results)
@@ -230,7 +230,7 @@ class Model:
         verbose : bool
             If True, will print the suppressed print statements.
         kwargs : dict
-            keyword arguments passed to PyStan's StanModel.sampling
+            keyword arguments passed to stan's StanModel.sampling
 
         Returns
         ----------
@@ -241,9 +241,9 @@ class Model:
         try:
             assert kwargs.get('iter', 2) >= 2
             with utils.suppress_stdout_stderr(verbose):
-                logging.getLogger("pystan").propagate = verbose
+                logging.getLogger("stan").propagate = verbose
                 self.fit = self.sm.sampling(data=self.data, **kwargs)
-                logging.getLogger("pystan").propagate = False
+                logging.getLogger("stan").propagate = False
             rez = self.unconstrain(self.fit.extract())
         except Exception as e:
             extra_message = ("Error during sampling from the model.")
@@ -302,7 +302,7 @@ class Model:
                 verbsoe:    Boolean
                             If True, prints the optimization messages from ADVI
                 kwargs:     arguments for vb see
-                            https://pystan.readthedocs.io/en/latest/api.html#pystan.StanModel.vb
+                            https://stan.readthedocs.io/en/latest/api.html#stan.StanModel.vb
                             for more details
             Returns
             ----------
@@ -334,7 +334,7 @@ class Model:
     def constrained_array_to_dict(self, samples):
         """ A function to convert the constrained parameter
             output to dictionary format compatible with
-            PyStan's StanModelFit4.extract() format.
+            stan's StanModelFit4.extract() format.
 
         Args:
             samples (np.ndarray): Constrained params
@@ -342,7 +342,7 @@ class Model:
         Returns:
             dict:
                 A dictionary that consists of the parameters aranged in
-                the same format as PyStan's StanModelFit4.extract()
+                the same format as stan's StanModelFit4.extract()
         """
         assert samples.ndim == 2
         N = samples.shape[0]

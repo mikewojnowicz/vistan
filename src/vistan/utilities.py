@@ -18,7 +18,7 @@ import contextlib
 import joblib
 import logging
 from vistan.recipes import cook_book
-logging.getLogger("pystan").propagate = False
+logging.getLogger("stan").propagate = False
 
 
 @contextlib.contextmanager
@@ -305,7 +305,7 @@ def get_adapted_step_size(
                             optimizer, num_epochs, hparams):
 
     """
-    Implements the adaptive step-size scheme from the PyStan version of ADVI.
+    Implements the adaptive step-size scheme from the stanversion of ADVI.
     """
 
     init_elbo = eval_function(params=init_params)
@@ -436,7 +436,7 @@ def optimization_handler(
                         '{desc}|{bar}|{percentage:3.0f}%'
                         '|{n_fmt}/{total_fmt}[{elapsed}<{remaining}]')
                     )) as progress_bar:
-                # Ignore some PyStan pickling warnings
+                # Ignore some stanpickling warnings
                 warnings.filterwarnings('ignore')
                 results = joblib.Parallel(n_jobs=len(steps))(
                                     joblib.delayed(partial_func)(s) for s in steps)

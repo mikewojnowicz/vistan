@@ -356,7 +356,7 @@ class Posterior():
 
                 return_constrained (bool):
                     If True, returns the constrained parameters in the same
-                    dictionary template as PyStan's .extract() method
+                    dictionary template as stan's .extract() method
                     (without 'lp__'.)
                     If False, then samples are returned unconstrained in
                     np.ndarray format such that z.shape =
@@ -366,7 +366,7 @@ class Posterior():
 
                 np.ndarray or dict:
                     If return_constrained is True, then a dictionary is
-                    the same template as PyStan's StanModelFit4.extract()
+                    the same template as stan's StanModelFit4.extract()
                     method. Else, returns the unconstrained samples
                     in the np.ndarray format such that
                     z.shape = (num_samples, self.zlen)
@@ -468,7 +468,7 @@ class Posterior():
 
     def constrained_array_to_dict(self, z):
         """A function to convert constrained space parameters to
-            a nice dictionary format as used by PyStan's
+            a nice dictionary format as used by stan's
             StanModelFit4.extract()
 
         Args:
@@ -491,7 +491,7 @@ class Posterior():
                 Dictionary of parameters. Dictionary can optionally contain
                 other generated quantities or transformed parameters. Only the
                 latent variables in the unconstrained space are returned.
-                See Pystan's StanModelFit4.unconstrain for more information.
+                See stan's StanModelFit4.unconstrain for more information.
 
         Returns:
             np.ndarray: Unconstrained latent variables.

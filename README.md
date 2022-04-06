@@ -6,10 +6,10 @@
   <img src="https://raw.githubusercontent.com/abhiagwl/vistan/master/vistan-example.png" title="A beta-bernoulli example with vistan">
 </p>
 
-`vistan` uses [autograd][1] and [PyStan][2] under the hood. The aim is to provide a "petting zoo" to make it easy to play around with the different variational methods discussed in the NeurIPS 2020 paper [Advances in BBVI][3]. 
+`vistan` uses [autograd][1] and [stan][2] under the hood. The aim is to provide a "petting zoo" to make it easy to play around with the different variational methods discussed in the NeurIPS 2020 paper [Advances in BBVI][3]. 
 
 [1]: https://github.com/HIPS/autograd
-[2]: https://github.com/stan-dev/pystan
+[2]: https://github.com/stan-dev/stan
 [3]: https://proceedings.neurips.cc/paper/2020/file/c91e3483cf4f90057d02aa492d2b25b1-Paper.pdf
 ## Features
 
@@ -29,7 +29,7 @@ pip install vistan
 The typical usage of the package would have the following steps:
 1. Create an algorithm. This can be done in two wasy:
  - The easiest is to use a pre-baked recipe as `algo=vistan.recipe('meanfield')`. There are various options: 
-    + `'advi'`: Run our implementation of ADVI's PyStan.
+    + `'advi'`: Run our implementation of ADVI's stan.
     + `'meanfield'`: Full-factorized Gaussia a.k.a meanfield VI
     + `'fullrank'`: Use a full-rank Gaussian for better dependence between latent variables 
     + `'flows'`: Use a RealNVP flow-based VI
@@ -127,7 +127,7 @@ plt.show()
 ```
 
 ### ADVI
-`'advi'` runs our implementation of PyStan's ADVI and uses their custom step-sequence scheme
+`'advi'` runs our implementation of stan's ADVI and uses their custom step-sequence scheme
 ```python
 algo = vistan.recipe("advi")  
 posterior = algo(code, data)

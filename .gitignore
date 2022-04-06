@@ -4,6 +4,7 @@ __pycache__
 # ignoring directories
 data/*
 models
+.DS_Store
 
 # ignoring build essentials
 README.html
